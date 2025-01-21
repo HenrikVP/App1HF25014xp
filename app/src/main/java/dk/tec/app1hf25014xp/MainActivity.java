@@ -51,6 +51,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initGui() {
+        // Initialize UI components
+        statusSpinner = findViewById(R.id.statusSpinner);
+        rewardSeekBar = findViewById(R.id.rewardSeekBar);
+        paidOutToggle = findViewById(R.id.paidOutToggle);
+        datetimeButton = findViewById(R.id.datetimeButton);
+        datetimeText = findViewById(R.id.datetimeText);
+        rewardValue = findViewById(R.id.rewardValue);
         Button createButton = findViewById(R.id.btn_create);
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,17 +66,9 @@ public class MainActivity extends AppCompatActivity {
                 //TODO Add assignment to list in another actitivy
             }
         });
-        // Initialize UI components
-        statusSpinner = findViewById(R.id.statusSpinner);
-        rewardSeekBar = findViewById(R.id.rewardSeekBar);
-        paidOutToggle = findViewById(R.id.paidOutToggle);
-        datetimeButton = findViewById(R.id.datetimeButton);
-        datetimeText = findViewById(R.id.datetimeText);
-        rewardValue = findViewById(R.id.rewardValue);
 
         List<Status> statuses = Arrays.asList(Status.values());
         ArrayAdapter<Status> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, statuses);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         statusSpinner.setAdapter(adapter);
 
         statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -81,13 +80,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // No action needed
             }
         });
 
         // Set up the SeekBar
         rewardSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 rewardValue.setText("Reward: " + progress * 5);
@@ -96,12 +93,15 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
         rewardSeekBar.setMax(20);
+
         // Set up the ToggleButton
         paidOutToggle.setOnCheckedChangeListener((buttonView, isChecked) -> assignment.setPaidOut(isChecked));
 
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private Assignment createAssingment(){
+    private Assignment createAssingment() {
         //Assignment assignment = new Assignment();
         EditText title = findViewById(R.id.edit_title);
         String titlestring = title.getText().toString();
@@ -119,14 +119,14 @@ public class MainActivity extends AppCompatActivity {
         return assignment;
     }
 
-private void showDateTimePicker() {
-    final Calendar currentDate = Calendar.getInstance();
-    new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
-        new TimePickerDialog(this, (timeView, hourOfDay, minute) -> {
-            LocalDateTime selectedDateTime = LocalDateTime.of(year, month + 1, dayOfMonth, hourOfDay, minute);
-            assignment.setDatetime(selectedDateTime);
-            datetimeText.setText("Selected: " + selectedDateTime.toString());
-        }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), true).show();
-    }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DAY_OF_MONTH)).show();
-}
+    private void showDateTimePicker() {
+        final Calendar currentDate = Calendar.getInstance();
+        new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+            new TimePickerDialog(this, (timeView, hourOfDay, minute) -> {
+                LocalDateTime selectedDateTime = LocalDateTime.of(year, month + 1, dayOfMonth, hourOfDay, minute);
+                assignment.setDatetime(selectedDateTime);
+                datetimeText.setText("Selected: " + selectedDateTime.toString());
+            }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), true).show();
+        }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DAY_OF_MONTH)).show();
+    }
 }

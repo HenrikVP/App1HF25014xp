@@ -5,91 +5,100 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:padding="50dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Create Assignment"
-        android:textSize="32sp"/>
+        android:textSize="32sp" />
+
     <EditText
+        android:id="@+id/edit_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/edit_title"
-        android:hint="@string/name_of_assignment"
-        />
-    <Button
+        android:hint="@string/name_of_assignment" />
+
+    <!-- Spinner for Status -->
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Status"
+        android:textSize="16sp" />
+
+    <Spinner
+        android:id="@+id/statusSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"/>
+
+    <!-- SeekBar for Reward -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="Reward"
+        android:textSize="16sp" />
+
+    <SeekBar
+        android:id="@+id/rewardSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"/>
+
+    <TextView
+        android:id="@+id/rewardValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Reward: 0" />
+
+    <!-- ToggleButton for PaidOut -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="Paid Out"
+        android:textSize="16sp" />
+
+    <ToggleButton
+        android:id="@+id/paidOutToggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOff="No"
+        android:textOn="Yes" />
+
+    <!-- DateTime Picker -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="Date and Time"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/datetimeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Date and Time" />
+
+    <TextView
+        android:id="@+id/datetimeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Date and Time not set" />
+
+    <Button
         android:id="@+id/btn_create"
-        android:text="Create"/>
-
-<!-- Spinner for Status -->
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Status"
-    android:textSize="16sp"
-    android:layout_marginBottom="8dp" />
-<Spinner
-    android:id="@+id/statusSpinner"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
-
-<!-- SeekBar for Reward -->
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Reward"
-    android:textSize="16sp"
-    android:layout_marginTop="16dp"
-    android:layout_marginBottom="8dp" />
-<SeekBar
-    android:id="@+id/rewardSeekBar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    />
-<TextView
-    android:id="@+id/rewardValue"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="4dp"
-    android:text="Reward: 0" />
-
-<!-- ToggleButton for PaidOut -->
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Paid Out"
-    android:textSize="16sp"
-    android:layout_marginTop="16dp"
-    android:layout_marginBottom="8dp" />
-<ToggleButton
-    android:id="@+id/paidOutToggle"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textOn="Yes"
-    android:textOff="No" />
-
-<!-- DateTime Picker -->
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Date and Time"
-    android:textSize="16sp"
-    android:layout_marginTop="16dp"
-    android:layout_marginBottom="8dp" />
-<Button
-    android:id="@+id/datetimeButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Select Date and Time" />
-<TextView
-    android:id="@+id/datetimeText"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:text="Date and Time not set" />
-
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create" />
 </LinearLayout>
