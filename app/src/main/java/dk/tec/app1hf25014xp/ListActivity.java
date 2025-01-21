@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +13,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -23,8 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListActivity extends AppCompatActivity {
-
-    List<Assignment> assignments;
     SharedPreferences sharedPreferences;
 
     @Override
@@ -38,33 +34,28 @@ public class ListActivity extends AppCompatActivity {
             return insets;
         });
         sharedPreferences = getSharedPreferences("SharedPref", Context.MODE_PRIVATE);
-        //TODO Get list from persistent data
-        //TODO Add item from other activity
-        //TODO Show list in layout
+        initGui();
+    }
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), AssignmentActivity.class));
-        });
+    private void initGui() {
+        findViewById(R.id.fab).setOnClickListener(view ->
+                startActivity(new Intent(getApplicationContext(), AssignmentActivity.class)));
 
+        // Loads assignments. Gets assignment from other activity. If not null, adds it and saves it
         List<Assignment> assignments = getAssignments();
         Assignment assignment = (Assignment) getIntent().getSerializableExtra("assignment");
-        if (assignment != null)
-            assignments.add(assignment);
+        if (assignment != null) assignments.add(assignment);
         saveAssignments(assignments);
 
+        // Adds list to a recyclerview through a custom adapter
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        AssignmentAdapter adapter = new AssignmentAdapter(assignments);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(new AssignmentAdapter(assignments));
     }
 
     private void saveAssignments(List<Assignment> assignments) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        // Convert the list to JSON
-        Gson gson = new Gson();
-        String json = gson.toJson(assignments);
+        String json = new Gson().toJson(assignments);
         editor.putString("ASSIGNMENTS_KEY", json);
         editor.apply();
     }
@@ -74,10 +65,8 @@ public class ListActivity extends AppCompatActivity {
         String json = sharedPreferences.getString("ASSIGNMENTS_KEY", null);
         // Convert JSON back to a list of assignments
         if (json != null) {
-            Gson gson = new Gson();
-            Type type = new TypeToken<ArrayList<Assignment>>() {
-            }.getType();
-            return gson.fromJson(json, type);
+            Type type = new TypeToken<ArrayList<Assignment>>() {}.getType();
+            return new Gson().fromJson(json, type);
         }
         return new ArrayList<>(); // Return an empty list if no data is found
     }
