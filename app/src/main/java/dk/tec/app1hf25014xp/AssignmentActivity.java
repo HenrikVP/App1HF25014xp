@@ -2,6 +2,7 @@ package dk.tec.app1hf25014xp;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,22 +26,14 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
-
-    private Spinner statusSpinner;
-    private SeekBar rewardSeekBar;
-    private ToggleButton paidOutToggle;
-    private Button datetimeButton;
-    private TextView datetimeText;
-    private TextView rewardValue;
-
+public class AssignmentActivity extends AppCompatActivity {
     private Assignment assignment = new Assignment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_assignment);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -52,25 +45,26 @@ public class MainActivity extends AppCompatActivity {
 
     private void initGui() {
         // Initialize UI components
-        statusSpinner = findViewById(R.id.statusSpinner);
-        rewardSeekBar = findViewById(R.id.rewardSeekBar);
-        paidOutToggle = findViewById(R.id.paidOutToggle);
-        datetimeButton = findViewById(R.id.datetimeButton);
-        datetimeText = findViewById(R.id.datetimeText);
-        rewardValue = findViewById(R.id.rewardValue);
+        Spinner statusSpinner = findViewById(R.id.statusSpinner);
+        SeekBar rewardSeekBar = findViewById(R.id.rewardSeekBar);
+        ToggleButton paidOutToggle = findViewById(R.id.paidOutToggle);
+        Button datetimeButton = findViewById(R.id.datetimeButton);
+        TextView rewardValue = findViewById(R.id.rewardValue);
         Button createButton = findViewById(R.id.btn_create);
-        createButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createAssingment();
-                //TODO Add assignment to list in another actitivy
-            }
+
+        createButton.setOnClickListener(view -> {
+            createAssingment();
+            //TODO Add assignment to list in another actitivy
+            Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+            intent.putExtra("assignment", assignment);
+            startActivity(intent);
         });
 
+        // Set up the Spinner
         List<Status> statuses = Arrays.asList(Status.values());
-        ArrayAdapter<Status> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, statuses);
+        ArrayAdapter<Status> adapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, statuses);
         statusSpinner.setAdapter(adapter);
-
         statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -79,8 +73,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
 
         // Set up the SeekBar
@@ -91,14 +84,10 @@ public class MainActivity extends AppCompatActivity {
                 //TODO Fix progress. It is NOT giving the x5 value
                 assignment.setReward(progress * 5);
             }
-
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
+            public void onStartTrackingTouch(SeekBar seekBar) { }
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
+            public void onStopTrackingTouch(SeekBar seekBar) { }
         });
         rewardSeekBar.setMax(20);
 
@@ -108,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         // Set up the DateTime Picker
         datetimeButton.setOnClickListener(v -> showDateTimePicker());
     }
-
 
     private Assignment createAssingment() {
         //Assignment assignment = new Assignment();
@@ -120,13 +108,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showDateTimePicker() {
+        TextView datetimeText = findViewById(R.id.datetimeText);
         final Calendar currentDate = Calendar.getInstance();
         new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
             new TimePickerDialog(this, (timeView, hourOfDay, minute) -> {
-                LocalDateTime selectedDateTime = LocalDateTime.of(year, month + 1, dayOfMonth, hourOfDay, minute);
-                assignment.setDatetime(selectedDateTime);
+                LocalDateTime selectedDateTime =
+                        LocalDateTime.of(year, month + 1, dayOfMonth, hourOfDay, minute);
+                assignment.setDeadline(selectedDateTime);
                 datetimeText.setText("Selected: " + selectedDateTime.toString());
-            }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), true).show();
-        }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DAY_OF_MONTH)).show();
+            },
+                    currentDate.get(Calendar.HOUR_OF_DAY),
+                    currentDate.get(Calendar.MINUTE),
+                    true).show();
+        },
+                currentDate.get(Calendar.YEAR),
+                currentDate.get(Calendar.MONTH),
+                currentDate.get(Calendar.DAY_OF_MONTH)).show();
     }
 }

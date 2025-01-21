@@ -1,5 +1,6 @@
 package dk.tec.app1hf25014xp;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 enum Status {Todo, Doing, Done;
         @Override
@@ -12,11 +13,11 @@ enum Status {Todo, Doing, Done;
             }
         }}
 
-public class Assignment {
+public class Assignment implements Serializable {
     private String title;
     private String description;
     private int reward;
-    private LocalDateTime datetime;
+    private LocalDateTime deadline;
     private Status status;
     private boolean paidOut;
 
@@ -52,12 +53,12 @@ public class Assignment {
         this.reward = reward;
     }
 
-    public LocalDateTime getDatetime() {
-        return datetime;
+    public LocalDateTime getDeadline() {
+        return deadline;
     }
 
-    public void setDatetime(LocalDateTime datetime) {
-        this.datetime = datetime;
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
     }
 
     public Status getStatus() {

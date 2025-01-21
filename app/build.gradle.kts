@@ -32,6 +32,8 @@ android {
 }
 
 dependencies {
+// https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation("com.google.code.gson:gson:2.11.0")
 
     implementation(libs.appcompat)
     implementation(libs.material)
